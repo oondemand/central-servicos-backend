@@ -16,7 +16,7 @@ spec:
     - host: api.oondemand.com.br
       http:
         paths:
-          - path: /central-servicos
+          - path: /central-servicos(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:

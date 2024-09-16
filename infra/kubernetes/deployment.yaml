@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: central-servicos-backend-container
-          image: registry.digitalocean.com/oondemand/central-servicos-backend:1.0.1
+          image: registry.digitalocean.com/oondemand/central-servicos-backend:1.0.3
           ports:
             - containerPort: 4000
           resources:
