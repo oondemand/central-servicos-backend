@@ -51,7 +51,7 @@ const InfoNfseSchema = new Schema({
     type: Number,
     required: true,
   },
-  dataEmissao: { 
+  dataEmissao: {
     type: Date,
     required: true,
   },
@@ -68,6 +68,9 @@ const InfoNfseSchema = new Schema({
 
 // Schema principal para Nfse
 const NfseSchema = new Schema({
+  arquivoOriginal: {
+    type: String, // arquivo XML ou pdf original em base64
+  },
   infoNfse: InfoNfseSchema, // Subdocumento para as informações da NFSe
 });
 

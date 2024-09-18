@@ -1,19 +1,23 @@
-# Define the root directory to start the search
-$rootDir = "."
+# Define o diretório raiz para iniciar a busca
+$rootDir = "../.."
 
-# Get all directories recursively, excluding the node_modules directory
-$directories = Get-ChildItem -Path $rootDir -Recurse -Directory | Where-Object { $_.FullName -notmatch "\\node_modules\\" }
+# Função para verificar se um caminho está dentro de um diretório node_modules
+function Is-InNodeModules {
+    param (
+        [string]$path
+    )
+    return $path -match "\\node_modules\\"
+}
 
-foreach ($dir in $directories) {
-    Write-Host "Pasta encontrada: $($dir.FullName)"
-    Read-Host -Prompt "Pressione Enter para listar os arquivos e exibir o conteúdo"
+# Obter todas as pastas e arquivos recursivamente, excluindo as pastas node_modules
+$items = Get-ChildItem -Path $rootDir -Recurse | Where-Object { -not (Is-InNodeModules $_.FullName) -and $_.Name -ne "package-lock.json" }
 
-    # Get all files in the current directory
-    $files = Get-ChildItem -Path $dir.FullName -File
-
-    foreach ($file in $files) {
-        Write-Host "Conteúdo do arquivo: $($file.FullName)"
-        Get-Content -Path $file.FullName
-        Write-Host "`n"  # Add a newline for better readability
+foreach ($item in $items) {
+    if ($item.PSIsContainer) {
+        Write-Host "Pasta encontrada: $($item.FullName)"
+    } else {
+        Write-Host "Conteúdo do arquivo: $($item.FullName)"
+        Get-Content -Path $item.FullName
+        Write-Host "`n"  # Adiciona uma nova linha para melhor legibilidade
     }
 }
